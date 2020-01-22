@@ -4,7 +4,8 @@
   "description": "recipie app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
   },
   "author": "Tomas",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "install": "^0.13.0",
     "npm": "^6.13.6",
     "regenerator-runtime": "^0.13.3",
-    "webpack": "^4.41.5"
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
