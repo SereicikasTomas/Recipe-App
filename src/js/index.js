@@ -14,12 +14,14 @@ const state = {};
 const controlSearch = async () => {
   // 1. Ger query from thee view
   const query = searchView.getInput();
-  
+
   if(query) {
     // 2. New search object and add too state
     state.search = new Search(query);
 
     // 3. Prepare Ui for the result
+    searchView.clearInput();
+    searchView.clearResults();
 
     // 4. Search for recipes
     await state.search.getRecipes();
