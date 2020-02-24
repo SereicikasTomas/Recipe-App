@@ -8,9 +8,9 @@ export const clearResults = () => { elements.searchResList.innerHTML = "" };
 
 const limitRecipeTitle = (title, limit = 17) => {
     const newTitle = [];
-    if(title.length > limit){
+    if (title.length > limit) {
         title.split(" ").reduce((acc, cur) => {
-            if(acc + cur.length <= limit){
+            if (acc + cur.length <= limit) {
                 newTitle.push(cur);
             }
             return acc + cur.length;
@@ -40,6 +40,8 @@ const renderRecipe = recipe => {
     elements.searchResList.insertAdjacentHTML("beforeend", markup);
 };
 
-export const renderResults = recipes => {
-    recipes.forEach(renderRecipe);
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+    recipes.slice(start, end).forEach(renderRecipe);
 };
