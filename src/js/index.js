@@ -27,13 +27,16 @@ const controlSearch = async () => {
     searchView.clearInput();
     searchView.clearResults();
     renderLoader(elements.searchRes);
+    try {
+      // 4. Search for recipes
+      await state.search.getRecipes();
 
-    // 4. Search for recipes
-    await state.search.getRecipes();
-
-    // 5. Render results on the UI
-    clearLoader();
-    searchView.renderResults(state.search.result);
+      // 5. Render results on the UI
+      clearLoader();
+      searchView.renderResults(state.search.result);
+    } catch (error) {
+      alert(error);
+    }
   }
 };
 
@@ -63,7 +66,7 @@ const controlRecipe = async () => {
 
     // Create new recipe object
     state.recipe = new Recipe(id);
-    
+
     try {
       // Get recipe data
       await state.recipe.getRecipe();
@@ -74,7 +77,7 @@ const controlRecipe = async () => {
 
       // Render recipe
       console.log(state.recipe);
-    }catch(error) {
+    } catch (error) {
       alert(error);
     }
   }
