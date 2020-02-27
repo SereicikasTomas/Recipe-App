@@ -35,7 +35,8 @@ const controlSearch = async () => {
       clearLoader();
       searchView.renderResults(state.search.result);
     } catch (error) {
-      alert(error);
+      alert(`Could not find anything for ${query}`);
+      clearLoader();
     }
   }
 };
