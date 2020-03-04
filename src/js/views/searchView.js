@@ -5,30 +5,37 @@ export const getInput = () => elements.searchInput.value;
 export const clearInput = () => { elements.searchInput.value = "" };
 
 export const clearResults = () => {
-  elements.searchResList.innerHTML = "";
-  elements.searchResPages.innerHTML = "";
+    elements.searchResList.innerHTML = "";
+    elements.searchResPages.innerHTML = "";
+};
+
+export const highlightSelected = id => {
+    const resultsArr = Array.from(document.querySelectorAll(".results__link"));
+    resultsArr.forEach(el => el.classList.remove("results__link--active"));
+
+    document.querySelector(`a[href="#${id}"]`).classList.add("results__link--active");
 };
 
 const limitRecipeTitle = (title, limit = 17) => {
-  const newTitle = [];
-  if (title.length > limit) {
-    title.split(" ").reduce((acc, cur) => {
-      if (acc + cur.length <= limit) {
-        newTitle.push(cur);
-      }
-      return acc + cur.length;
-    }, 0);
+    const newTitle = [];
+    if (title.length > limit) {
+        title.split(" ").reduce((acc, cur) => {
+            if (acc + cur.length <= limit) {
+                newTitle.push(cur);
+            }
+            return acc + cur.length;
+        }, 0);
 
-    return `${newTitle.join(" ")} ...`;
-  }
-  return title;
+        return `${newTitle.join(" ")} ...`;
+    }
+    return title;
 };
 
 const renderRecipe = recipe => {
-  const { recipe_id, image_url, title, publisher } = recipe;
-  const markup = `
+    const { recipe_id, image_url, title, publisher } = recipe;
+    const markup = `
         <li>
-            <a class="results__link results__link--active" href="#${recipe_id}">
+            <a class="results__link" href="#${recipe_id}">
                 <figure class="results__fig">
                     <img src="${image_url}" alt="${title}">
                 </figure>
@@ -40,7 +47,7 @@ const renderRecipe = recipe => {
         </li>
     `;
 
-  elements.searchResList.insertAdjacentHTML("beforeend", markup);
+    elements.searchResList.insertAdjacentHTML("beforeend", markup);
 };
 
 const createButton = (page, type) => `
@@ -53,30 +60,30 @@ const createButton = (page, type) => `
 `;
 
 const renderButtons = (page, numResults, resPerPage) => {
-  const pages = Math.ceil(numResults / resPerPage);
-  let button;
-  if (page === 1 && pages > 1) {
-    // Render button to go to next page
-    button = createButton(page, "next");
-  } else if (page < pages) {
-    // Render both buttons
-    button = `
+    const pages = Math.ceil(numResults / resPerPage);
+    let button;
+    if (page === 1 && pages > 1) {
+        // Render button to go to next page
+        button = createButton(page, "next");
+    } else if (page < pages) {
+        // Render both buttons
+        button = `
       ${createButton(page, "next")}
       ${createButton(page, "prev")}
     `;
-  } else if (page === pages) {
-    // Render button to go to previous page
-    button = createButton(page, "prev");
-  }
+    } else if (page === pages) {
+        // Render button to go to previous page
+        button = createButton(page, "prev");
+    }
 
-  elements.searchResPages.insertAdjacentHTML("afterbegin", button);
+    elements.searchResPages.insertAdjacentHTML("afterbegin", button);
 };
 
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
-  const start = (page - 1) * resPerPage;
-  const end = page * resPerPage;
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
 
-  recipes.slice(start, end).forEach(renderRecipe);
+    recipes.slice(start, end).forEach(renderRecipe);
 
-  renderButtons(page, recipes.length, resPerPage);
+    renderButtons(page, recipes.length, resPerPage);
 };
