@@ -82,7 +82,7 @@ const controlRecipe = async () => {
     try {
       // Get recipe data
       await state.recipe.getRecipe();
-      console.log(state.recipe.ingredients);
+
       state.recipe.parseIngredients();
 
       // Calculate servings and time
@@ -175,6 +175,17 @@ const controlLike = () => {
   }
   likesView.toggleLikeMenu(state.likes.getNumLikes());
 };
+
+// Restore likes from local storage
+window-addEventListener("load", ()=> {
+  state.likes = new Likes();
+  // Restore likes
+  state.likes.readStorage();
+  // Toggle like button
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
+  // Render existing likes
+  state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 
 // Handle recipe button click
 elements.recipe.addEventListener("click", e => {
